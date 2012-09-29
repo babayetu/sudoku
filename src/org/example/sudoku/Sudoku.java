@@ -1,5 +1,5 @@
 /***
- * Excerpted from "Hello, Android!",
+ * Excepted from "Hello, Android!",
  * published by The Pragmatic Bookshelf.
  * Copyrights apply to this code. It may not be used to create training material, 
  * courses, books, articles, and the like. Contact us if you are in doubt.
@@ -42,7 +42,9 @@ public class Sudoku extends Activity implements OnClickListener {
 
 	private void startGame(int i) {
 		Log.d(TAG, "clicked on " + i);
-		// Start game here...
+		Intent intent = new Intent(Sudoku.this, Game.class);
+		intent.putExtra(Game.KEY_DIFFICULTY, i);
+		startActivity(intent);
 	}
 
 	@Override
@@ -59,6 +61,12 @@ public class Sudoku extends Activity implements OnClickListener {
 		aboutButton.setOnClickListener(this);
 		View exitButton = findViewById(R.id.exit_button);
 		exitButton.setOnClickListener(this);
+
+		String aString = getResources().getString(R.string.about_label);
+		Log.i("getResource", "About Button is " + aString);
+		Log.i("getResource", "Class Name is "
+				+ getResources().getClass().getName());
+
 	}
 
 	public void onClick(View v) {
@@ -70,6 +78,10 @@ public class Sudoku extends Activity implements OnClickListener {
 		case R.id.new_button:
 			openNewGameDialog();
 			break;
+		case R.id.exit_button:
+			finish();
+			break;
+
 		// More buttons go here (if any) ...
 		}
 	}
@@ -91,6 +103,18 @@ public class Sudoku extends Activity implements OnClickListener {
 			// More items go here (if any) ...
 		}
 		return false;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Music.play(this, R.raw.main);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Music.stop(this);
 	}
 
 }
