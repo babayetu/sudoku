@@ -33,6 +33,10 @@ public class Game extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 		int diff = getIntent().getIntExtra(KEY_DIFFICULTY, DIFFICULTY_EASY);
+		
+		// If the activity is restarted, do a continue next time
+		getIntent().putExtra(KEY_DIFFICULTY, DIFFICULTY_CONTINUE);
+		
 		puzzle = getPuzzle(diff);
 		calculateUsedTiles();
 		puzzleView = new PuzzleView(this);
@@ -141,6 +145,10 @@ public class Game extends Activity {
 			break;
 		case DIFFICULTY_MEDIUM:
 			puz = mediumPuzzle;
+			break;
+		case DIFFICULTY_CONTINUE:
+			puz = getPreferences(MODE_PRIVATE).getString(PREF_PUZZLE,
+					easyPuzzle);
 			break;
 		case DIFFICULTY_EASY:
 		default:
